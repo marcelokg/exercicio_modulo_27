@@ -1,47 +1,100 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <div class="container">
+    <h1 class="mt-5 mb-4">Calculadora</h1>
+    <form>
+      <div class="row">
+        <div class="col-md-3">
+          <input v-model="num1" type="number" class="mb-4 form-control" placeholder="1º Número">
+        </div>
+        <div class="col-md-3">
+          <input v-model="num2" type="number" class="form-control" placeholder="2º Número">
+        </div>
+        <div class="col-md-5">
+          <select v-model="operacaoSelecionada" @change="executarCalculo" class="form-control">
+            <option value="" disabled selected>Escolha Uma Operação Aritmética</option>
+            <option value="soma">Somar</option>
+            <option value="subtracao">Subtrair</option>
+            <option value="multiplicacao">Multiplicar</option>
+            <option value="divisao">Dividir</option>
+          </select>
+        </div>
+      </div>
+    </form>
+    <div class="mb-3">
+      <br><span>Resultado: {{ resultado }}</span>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  </div>
 </template>
 
+<script>
+
+  export default{
+    data(){
+      return{
+        operacaoSelecionada: '',
+        resultado:    0,
+        num1: 0,
+        num2: 0
+      }
+    },
+
+    watch:{
+      num1(newVal,oldVal){
+        this.executarCalculo()
+      },
+      num2(newVal,oldVal){
+        this.executarCalculo()
+      }
+    },
+
+    methods:{
+      executarCalculo(){
+        switch(this.operacaoSelecionada){
+          case 'soma':
+            this.resultado = this.num1 + this.num2
+            break
+          case 'subtracao':
+            this.resultado = this.num1 - this.num2
+            break
+          case 'multiplicacao':
+            this.resultado = this.num1 * this.num2
+            break
+          case 'divisao':
+            this.resultado = this.num1 / this.num2
+            break
+        }
+      }
+    }
+  }
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+  .container{
+    display: block;
+    margin: 0 auto;
+    align-items: center;
+    width: 800px;
+    background-color:rgb(241, 241, 241)
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
+  h1{
+    text-align: center;
   }
 
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
+  input{
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    width: 120px;
   }
-}
+
+  option{
+    text-align: center
+  }
+
+  span{
+    font-size: 20px;
+  }
+
 </style>
+
